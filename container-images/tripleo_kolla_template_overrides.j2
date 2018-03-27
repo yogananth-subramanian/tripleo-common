@@ -525,6 +525,27 @@ RUN mkdir -p /openstack && \
     chmod a+rx /openstack/healthcheck
 {% endblock %}
 
+{% block openvswitch_db_server_footer %}
+VOLUME /etc/openswitch
+ENV HOME /root
+ADD plugins-archive /
+ADD additions-archive /
+RUN mkdir /exports/ && \
+    cp /additions/{config.json.template,service.template,tmpfiles.template}     /exports/ && \
+    cp /additions/{ovs-run.sh,system-container-wrapper.sh} /usr/local/bin/
+{% endblock %}
+
+{% block openvswitch_vswitchd_footer %}
+VOLUME /etc/openswitch
+ENV HOME /root
+ADD plugins-archive /
+ADD additions-archive /
+RUN mkdir /exports/ && \
+    cp /additions/{config.json.template,service.template,tmpfiles.template}     /exports/ && \
+    cp /additions/{ovs-run.sh,system-container-wrapper.sh} /usr/local/bin/
+{% endblock %}
+
+
 {% block base_footer %}
 # workaround LP1696283
 RUN mkdir -p /etc/ssh && touch /etc/ssh/ssh_known_hosts
